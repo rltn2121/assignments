@@ -1,0 +1,28 @@
+@CHARSET "EUC-KR";
+
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+body {
+	font-family: 'Jeju Gothic', serif;
+}
+
+table {
+	align: center;
+	margin-top: 70px;
+	padding: 50px 100px;
+	font-size: 110%;
+}
+div
+{
+
+background-color:lightblue;
+text-align: center;
+}
+h1 {
+	text-align: center;
+}
+
+th, td
+{
+	text-align: center;
+}
