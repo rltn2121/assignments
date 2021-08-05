@@ -1,0 +1,74 @@
+class: 0, pid: 1, priority: 0, burst_time: 9
+class: 0, pid: 2, priority: 0, burst_time: 4
+class: 0, pid: 3, priority: 0, burst_time: 15
+class: 0, pid: 4, priority: 0, burst_time: 13
+class: 1, pid: 5, priority: 0, burst_time: 13
+class: 1, pid: 6, priority: 0, burst_time: 8
+class: 1, pid: 7, priority: 0, burst_time: 10
+class: 1, pid: 8, priority: 0, burst_time: 6
+class: 2, pid: 9, priority: 0, burst_time: 11
+class: 2, pid: 10, priority: 0, burst_time: 7
+class: 2, pid: 11, priority: 0, burst_time: 40
+class: 2, pid: 12, priority: 0, burst_time: 13
+class: 3, pid: 13, priority: 2, burst_time: 7
+class: 3, pid: 14, priority: 3, burst_time: 15
+class: 3, pid: 15, priority: 1, burst_time: 12
+class: 3, pid: 16, priority: 4, burst_time: 4
+class: 4, pid: 17, priority: 0, burst_time: 11
+class: 4, pid: 18, priority: 0, burst_time: 7
+class: 4, pid: 19, priority: 0, burst_time: 40
+class: 4, pid: 20, priority: 0, burst_time: 13
+------ sched_SJF() ------
+5 5 5 5 5 5 5 5 5 5 5 5 5 
+6 6 6 6 6 6 6 6 
+7 7 7 7 7 7 7 7 7 7 
+8 8 8 8 8 8 
+context switch: 3
+------ sched_PRIORITY() ------
+13 13 13 13 13 13 13 
+14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 
+15 15 15 15 15 15 15 15 15 15 15 15 
+16 16 16 16 
+context switch: 7
+------ sched_FCFS() ------
+1 1 1 1 1 1 1 1 1 
+2 2 2 2 
+3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+4 4 4 4 4 4 4 4 4 4 4 4 4 
+context switch: 11
+------ sched_RR() ------
+9 9 9 
+10 10 10 
+11 11 11 
+12 12 12 
+9 9 9 
+10 10 10 
+11 11 11 
+12 12 12 
+9 9 9 
+10 
+11 11 11 
+12 12 12 
+9 9 
+11 11 11 
+12 12 12 
+11 11 11 
+12 
+11 11 11 
+11 11 11 
+11 11 11 
+11 11 11 
+11 11 11 
+11 11 11 
+11 11 11 
+11 11 11 
+11 
+context switch: 29
+------ sched_RR() ------
+17 17 17 17 17 17 17 17 17 17 17 
+18 18 18 18 18 18 18 
+19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+20 20 20 20 20 20 20 20 20 20 20 20 20 
+19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+19 19 19 19 19 19 19 19 19 19 
+context switch: 34

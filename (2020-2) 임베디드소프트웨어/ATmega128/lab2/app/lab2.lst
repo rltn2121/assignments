@@ -1,0 +1,1535 @@
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 1
+
+
+   1               		.file	"lab2.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.global	InitI2C
+  10               		.type	InitI2C, @function
+  11               	InitI2C:
+  12               	/* prologue: function */
+  13               	/* frame size = 0 */
+  14 0000 83E0      		ldi r24,lo8(3)
+  15 0002 82BB      		out 50-32,r24
+  16 0004 80B5      		in r24,64-32
+  17 0006 8B7F      		andi r24,lo8(-5)
+  18 0008 80BD      		out 64-32,r24
+  19 000a 1092 7100 		sts 113,__zero_reg__
+  20 000e 80E2      		ldi r24,lo8(32)
+  21 0010 8093 7000 		sts 112,r24
+  22 0014 84E4      		ldi r24,lo8(68)
+  23 0016 8093 7400 		sts 116,r24
+  24               	/* epilogue start */
+  25 001a 0895      		ret
+  26               		.size	InitI2C, .-InitI2C
+  27               	.global	init_adc
+  28               		.type	init_adc, @function
+  29               	init_adc:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 001c 17B8      		out 39-32,__zero_reg__
+  33 001e 87E8      		ldi r24,lo8(-121)
+  34 0020 86B9      		out 38-32,r24
+  35               	/* epilogue start */
+  36 0022 0895      		ret
+  37               		.size	init_adc, .-init_adc
+  38               	.global	read_adc
+  39               		.type	read_adc, @function
+  40               	read_adc:
+  41               	/* prologue: function */
+  42               	/* frame size = 0 */
+  43 0024 369A      		sbi 38-32,6
+  44               	.L6:
+  45 0026 349B      		sbis 38-32,4
+  46 0028 00C0      		rjmp .L6
+  47 002a 24B1      		in r18,36-32
+  48 002c 45B1      		in r20,37-32
+  49 002e 942F      		mov r25,r20
+  50 0030 80E0      		ldi r24,lo8(0)
+  51 0032 30E0      		ldi r19,lo8(0)
+  52 0034 282B      		or r18,r24
+  53 0036 392B      		or r19,r25
+  54 0038 C901      		movw r24,r18
+  55               	/* epilogue start */
+  56 003a 0895      		ret
+  57               		.size	read_adc, .-read_adc
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 2
+
+
+  58               	.global	show_adc
+  59               		.type	show_adc, @function
+  60               	show_adc:
+  61               	/* prologue: function */
+  62               	/* frame size = 0 */
+  63 003c BC01      		movw r22,r24
+  64 003e 660F      		lsl r22
+  65 0040 672F      		mov r22,r23
+  66 0042 661F      		rol r22
+  67 0044 770B      		sbc r23,r23
+  68 0046 7195      		neg r23
+  69 0048 40E0      		ldi r20,lo8(0)
+  70 004a 50E0      		ldi r21,hi8(0)
+  71 004c E1E0      		ldi r30,lo8(1)
+  72 004e F0E0      		ldi r31,hi8(1)
+  73 0050 00C0      		rjmp .L13
+  74               	.L17:
+  75 0052 2BB3      		in r18,59-32
+  76 0054 CF01      		movw r24,r30
+  77 0056 042E      		mov r0,r20
+  78 0058 00C0      		rjmp 2f
+  79 005a 880F      	1:	lsl r24
+  80 005c 991F      		rol r25
+  81 005e 0A94      	2:	dec r0
+  82 0060 02F4      		brpl 1b
+  83 0062 282B      		or r18,r24
+  84 0064 2BBB      		out 59-32,r18
+  85 0066 4F5F      		subi r20,lo8(-(1))
+  86 0068 5F4F      		sbci r21,hi8(-(1))
+  87 006a 4830      		cpi r20,8
+  88 006c 5105      		cpc r21,__zero_reg__
+  89 006e 01F0      		breq .L16
+  90               	.L13:
+  91 0070 6417      		cp r22,r20
+  92 0072 7507      		cpc r23,r21
+  93 0074 04F4      		brge .L17
+  94 0076 2BB3      		in r18,59-32
+  95 0078 CF01      		movw r24,r30
+  96 007a 042E      		mov r0,r20
+  97 007c 00C0      		rjmp 2f
+  98 007e 880F      	1:	lsl r24
+  99 0080 991F      		rol r25
+ 100 0082 0A94      	2:	dec r0
+ 101 0084 02F4      		brpl 1b
+ 102 0086 8095      		com r24
+ 103 0088 8223      		and r24,r18
+ 104 008a 8BBB      		out 59-32,r24
+ 105 008c 4F5F      		subi r20,lo8(-(1))
+ 106 008e 5F4F      		sbci r21,hi8(-(1))
+ 107 0090 4830      		cpi r20,8
+ 108 0092 5105      		cpc r21,__zero_reg__
+ 109 0094 01F4      		brne .L13
+ 110               	.L16:
+ 111               	/* epilogue start */
+ 112 0096 0895      		ret
+ 113               		.size	show_adc, .-show_adc
+ 114               	.global	write_twi_1byte_nopreset
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 3
+
+
+ 115               		.type	write_twi_1byte_nopreset, @function
+ 116               	write_twi_1byte_nopreset:
+ 117               	/* prologue: function */
+ 118               	/* frame size = 0 */
+ 119 0098 982F      		mov r25,r24
+ 120 009a 84EA      		ldi r24,lo8(-92)
+ 121 009c 8093 7400 		sts 116,r24
+ 122               	.L33:
+ 123 00a0 8091 7400 		lds r24,116
+ 124 00a4 87FF      		sbrs r24,7
+ 125 00a6 00C0      		rjmp .L33
+ 126 00a8 8091 7100 		lds r24,113
+ 127 00ac 887F      		andi r24,lo8(-8)
+ 128 00ae 8830      		cpi r24,lo8(8)
+ 129 00b0 01F0      		breq .L20
+ 130 00b2 8091 7100 		lds r24,113
+ 131 00b6 887F      		andi r24,lo8(-8)
+ 132 00b8 8031      		cpi r24,lo8(16)
+ 133 00ba 01F4      		brne .L33
+ 134               	.L20:
+ 135 00bc 88E9      		ldi r24,lo8(-104)
+ 136 00be 8093 7300 		sts 115,r24
+ 137 00c2 84E8      		ldi r24,lo8(-124)
+ 138 00c4 8093 7400 		sts 116,r24
+ 139               	.L34:
+ 140 00c8 8091 7400 		lds r24,116
+ 141 00cc 87FF      		sbrs r24,7
+ 142 00ce 00C0      		rjmp .L34
+ 143 00d0 8091 7100 		lds r24,113
+ 144 00d4 887F      		andi r24,lo8(-8)
+ 145 00d6 8831      		cpi r24,lo8(24)
+ 146 00d8 01F4      		brne .L34
+ 147 00da 9093 7300 		sts 115,r25
+ 148 00de 84E8      		ldi r24,lo8(-124)
+ 149 00e0 8093 7400 		sts 116,r24
+ 150               	.L35:
+ 151 00e4 8091 7400 		lds r24,116
+ 152 00e8 87FF      		sbrs r24,7
+ 153 00ea 00C0      		rjmp .L35
+ 154 00ec 8091 7100 		lds r24,113
+ 155 00f0 887F      		andi r24,lo8(-8)
+ 156 00f2 8832      		cpi r24,lo8(40)
+ 157 00f4 01F4      		brne .L35
+ 158 00f6 6093 7300 		sts 115,r22
+ 159 00fa 84E8      		ldi r24,lo8(-124)
+ 160 00fc 8093 7400 		sts 116,r24
+ 161               	.L36:
+ 162 0100 8091 7400 		lds r24,116
+ 163 0104 87FF      		sbrs r24,7
+ 164 0106 00C0      		rjmp .L36
+ 165 0108 8091 7100 		lds r24,113
+ 166 010c 887F      		andi r24,lo8(-8)
+ 167 010e 8832      		cpi r24,lo8(40)
+ 168 0110 01F4      		brne .L36
+ 169 0112 84E9      		ldi r24,lo8(-108)
+ 170 0114 8093 7400 		sts 116,r24
+ 171               	/* epilogue start */
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 4
+
+
+ 172 0118 0895      		ret
+ 173               		.size	write_twi_1byte_nopreset, .-write_twi_1byte_nopreset
+ 174               	.global	write_twi_0byte_nopreset
+ 175               		.type	write_twi_0byte_nopreset, @function
+ 176               	write_twi_0byte_nopreset:
+ 177               	/* prologue: function */
+ 178               	/* frame size = 0 */
+ 179 011a 982F      		mov r25,r24
+ 180 011c 84EA      		ldi r24,lo8(-92)
+ 181 011e 8093 7400 		sts 116,r24
+ 182               	.L49:
+ 183 0122 8091 7400 		lds r24,116
+ 184 0126 87FF      		sbrs r24,7
+ 185 0128 00C0      		rjmp .L49
+ 186 012a 8091 7100 		lds r24,113
+ 187 012e 887F      		andi r24,lo8(-8)
+ 188 0130 8830      		cpi r24,lo8(8)
+ 189 0132 01F0      		breq .L39
+ 190 0134 8091 7100 		lds r24,113
+ 191 0138 887F      		andi r24,lo8(-8)
+ 192 013a 8031      		cpi r24,lo8(16)
+ 193 013c 01F4      		brne .L49
+ 194               	.L39:
+ 195 013e 88E9      		ldi r24,lo8(-104)
+ 196 0140 8093 7300 		sts 115,r24
+ 197 0144 84E8      		ldi r24,lo8(-124)
+ 198 0146 8093 7400 		sts 116,r24
+ 199               	.L50:
+ 200 014a 8091 7400 		lds r24,116
+ 201 014e 87FF      		sbrs r24,7
+ 202 0150 00C0      		rjmp .L50
+ 203 0152 8091 7100 		lds r24,113
+ 204 0156 887F      		andi r24,lo8(-8)
+ 205 0158 8831      		cpi r24,lo8(24)
+ 206 015a 01F4      		brne .L50
+ 207 015c 9093 7300 		sts 115,r25
+ 208 0160 84E8      		ldi r24,lo8(-124)
+ 209 0162 8093 7400 		sts 116,r24
+ 210               	.L51:
+ 211 0166 8091 7400 		lds r24,116
+ 212 016a 87FF      		sbrs r24,7
+ 213 016c 00C0      		rjmp .L51
+ 214 016e 8091 7100 		lds r24,113
+ 215 0172 887F      		andi r24,lo8(-8)
+ 216 0174 8832      		cpi r24,lo8(40)
+ 217 0176 01F4      		brne .L51
+ 218 0178 84E9      		ldi r24,lo8(-108)
+ 219 017a 8093 7400 		sts 116,r24
+ 220               	/* epilogue start */
+ 221 017e 0895      		ret
+ 222               		.size	write_twi_0byte_nopreset, .-write_twi_0byte_nopreset
+ 223               	.global	ReadTemperature
+ 224               		.type	ReadTemperature, @function
+ 225               	ReadTemperature:
+ 226               	/* prologue: function */
+ 227               	/* frame size = 0 */
+ 228 0180 84EA      		ldi r24,lo8(-92)
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 5
+
+
+ 229 0182 8093 7400 		sts 116,r24
+ 230               	.L67:
+ 231 0186 8091 7400 		lds r24,116
+ 232 018a 87FF      		sbrs r24,7
+ 233 018c 00C0      		rjmp .L67
+ 234 018e 8091 7100 		lds r24,113
+ 235 0192 887F      		andi r24,lo8(-8)
+ 236 0194 8830      		cpi r24,lo8(8)
+ 237 0196 01F0      		breq .L54
+ 238 0198 8091 7100 		lds r24,113
+ 239 019c 887F      		andi r24,lo8(-8)
+ 240 019e 8031      		cpi r24,lo8(16)
+ 241 01a0 01F4      		brne .L67
+ 242               	.L54:
+ 243 01a2 89E9      		ldi r24,lo8(-103)
+ 244 01a4 8093 7300 		sts 115,r24
+ 245 01a8 84E8      		ldi r24,lo8(-124)
+ 246 01aa 8093 7400 		sts 116,r24
+ 247               	.L68:
+ 248 01ae 8091 7400 		lds r24,116
+ 249 01b2 87FF      		sbrs r24,7
+ 250 01b4 00C0      		rjmp .L68
+ 251 01b6 8091 7100 		lds r24,113
+ 252 01ba 887F      		andi r24,lo8(-8)
+ 253 01bc 8034      		cpi r24,lo8(64)
+ 254 01be 01F4      		brne .L68
+ 255 01c0 84EC      		ldi r24,lo8(-60)
+ 256 01c2 8093 7400 		sts 116,r24
+ 257               	.L69:
+ 258 01c6 8091 7400 		lds r24,116
+ 259 01ca 87FF      		sbrs r24,7
+ 260 01cc 00C0      		rjmp .L69
+ 261 01ce 8091 7100 		lds r24,113
+ 262 01d2 887F      		andi r24,lo8(-8)
+ 263 01d4 8035      		cpi r24,lo8(80)
+ 264 01d6 01F4      		brne .L69
+ 265 01d8 3091 7300 		lds r19,115
+ 266 01dc 84EC      		ldi r24,lo8(-60)
+ 267 01de 8093 7400 		sts 116,r24
+ 268               	.L70:
+ 269 01e2 8091 7400 		lds r24,116
+ 270 01e6 87FF      		sbrs r24,7
+ 271 01e8 00C0      		rjmp .L70
+ 272 01ea 8091 7100 		lds r24,113
+ 273 01ee 887F      		andi r24,lo8(-8)
+ 274 01f0 8035      		cpi r24,lo8(80)
+ 275 01f2 01F4      		brne .L70
+ 276 01f4 2091 7300 		lds r18,115
+ 277 01f8 84E9      		ldi r24,lo8(-108)
+ 278 01fa 8093 7400 		sts 116,r24
+ 279 01fe 932F      		mov r25,r19
+ 280 0200 80E0      		ldi r24,lo8(0)
+ 281 0202 30E0      		ldi r19,lo8(0)
+ 282 0204 282B      		or r18,r24
+ 283 0206 392B      		or r19,r25
+ 284 0208 C901      		movw r24,r18
+ 285               	/* epilogue start */
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 6
+
+
+ 286 020a 0895      		ret
+ 287               		.size	ReadTemperature, .-ReadTemperature
+ 288               	.global	showTempLed
+ 289               		.type	showTempLed, @function
+ 290               	showTempLed:
+ 291               	/* prologue: function */
+ 292               	/* frame size = 0 */
+ 293 020c 1BBA      		out 59-32,__zero_reg__
+ 294 020e 8070      		andi r24,lo8(32512)
+ 295 0210 9F77      		andi r25,hi8(32512)
+ 296 0212 E92F      		mov r30,r25
+ 297 0214 F0E0      		ldi r31,lo8(0)
+ 298 0216 41E0      		ldi r20,lo8(1)
+ 299 0218 50E0      		ldi r21,hi8(1)
+ 300 021a 21E0      		ldi r18,lo8(1)
+ 301 021c 30E0      		ldi r19,hi8(1)
+ 302 021e 60E0      		ldi r22,lo8(0)
+ 303 0220 70E0      		ldi r23,hi8(0)
+ 304 0222 A1E0      		ldi r26,lo8(1)
+ 305 0224 B0E0      		ldi r27,hi8(1)
+ 306 0226 00C0      		rjmp .L74
+ 307               	.L76:
+ 308 0228 9D01      		movw r18,r26
+ 309 022a 00C0      		rjmp 2f
+ 310 022c 220F      	1:	lsl r18
+ 311 022e 331F      		rol r19
+ 312 0230 4A95      	2:	dec r20
+ 313 0232 02F4      		brpl 1b
+ 314 0234 AC01      		movw r20,r24
+ 315               	.L74:
+ 316 0236 C901      		movw r24,r18
+ 317 0238 8E23      		and r24,r30
+ 318 023a 9F23      		and r25,r31
+ 319 023c 892B      		or r24,r25
+ 320 023e 01F0      		breq .L72
+ 321 0240 620F      		add r22,r18
+ 322 0242 731F      		adc r23,r19
+ 323               	.L72:
+ 324 0244 CA01      		movw r24,r20
+ 325 0246 0196      		adiw r24,1
+ 326 0248 8930      		cpi r24,9
+ 327 024a 9105      		cpc r25,__zero_reg__
+ 328 024c 01F4      		brne .L76
+ 329 024e 6BBB      		out 59-32,r22
+ 330               	/* epilogue start */
+ 331 0250 0895      		ret
+ 332               		.size	showTempLed, .-showTempLed
+ 333               	.global	showTempFnd
+ 334               		.type	showTempFnd, @function
+ 335               	showTempFnd:
+ 336 0252 1F93      		push r17
+ 337 0254 DF93      		push r29
+ 338 0256 CF93      		push r28
+ 339 0258 00D0      		rcall .
+ 340 025a 00D0      		rcall .
+ 341 025c CDB7      		in r28,__SP_L__
+ 342 025e DEB7      		in r29,__SP_H__
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 7
+
+
+ 343               	/* prologue: function */
+ 344               	/* frame size = 4 */
+ 345 0260 9C01      		movw r18,r24
+ 346 0262 97FD      		sbrc r25,7
+ 347 0264 00C0      		rjmp .L78
+ 348 0266 13E1      		ldi r17,lo8(19)
+ 349 0268 C901      		movw r24,r18
+ 350 026a 8070      		andi r24,lo8(32512)
+ 351 026c 9F77      		andi r25,hi8(32512)
+ 352 026e 492F      		mov r20,r25
+ 353 0270 27FD      		sbrc r18,7
+ 354 0272 00C0      		rjmp .L80
+ 355               	.L89:
+ 356 0274 B0E0      		ldi r27,lo8(0)
+ 357 0276 E0E0      		ldi r30,lo8(0)
+ 358 0278 F0E0      		ldi r31,hi8(0)
+ 359               	.L81:
+ 360 027a 842F      		mov r24,r20
+ 361 027c 6AE0      		ldi r22,lo8(10)
+ 362 027e 0E94 0000 		call __udivmodqi4
+ 363 0282 0E94 0000 		call __udivmodqi4
+ 364 0286 A92F      		mov r26,r25
+ 365 0288 842F      		mov r24,r20
+ 366 028a 0E94 0000 		call __udivmodqi4
+ 367 028e E050      		subi r30,lo8(-(FND_DATA))
+ 368 0290 F040      		sbci r31,hi8(-(FND_DATA))
+ 369 0292 8081      		ld r24,Z
+ 370 0294 85BB      		out 53-32,r24
+ 371 0296 8091 0000 		lds r24,fnd_sel
+ 372 029a 8093 6500 		sts 101,r24
+ 373 029e 20E0      		ldi r18,lo8(0)
+ 374 02a0 30E0      		ldi r19,hi8(0)
+ 375 02a2 40E4      		ldi r20,lo8(8000)
+ 376 02a4 5FE1      		ldi r21,hi8(8000)
+ 377 02a6 BE01      		movw r22,r28
+ 378 02a8 6F5F      		subi r22,lo8(-(1))
+ 379 02aa 7F4F      		sbci r23,hi8(-(1))
+ 380               	.L87:
+ 381 02ac FA01      		movw r30,r20
+ 382               	/* #APP */
+ 383               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 384 02ae 3197      		1: sbiw r30,1
+ 385 02b0 01F4      		brne 1b
+ 386               	 ;  0 "" 2
+ 387               	/* #NOAPP */
+ 388 02b2 2F5F      		subi r18,lo8(-(1))
+ 389 02b4 3F4F      		sbci r19,hi8(-(1))
+ 390 02b6 2430      		cpi r18,4
+ 391 02b8 3105      		cpc r19,__zero_reg__
+ 392 02ba 04F4      		brge .L88
+ 393 02bc B983      		std Y+1,r27
+ 394 02be 9A83      		std Y+2,r25
+ 395 02c0 AB83      		std Y+3,r26
+ 396 02c2 1C83      		std Y+4,r17
+ 397 02c4 FB01      		movw r30,r22
+ 398 02c6 E20F      		add r30,r18
+ 399 02c8 F31F      		adc r31,r19
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 8
+
+
+ 400 02ca E081      		ld r30,Z
+ 401 02cc F0E0      		ldi r31,lo8(0)
+ 402 02ce E050      		subi r30,lo8(-(FND_DATA))
+ 403 02d0 F040      		sbci r31,hi8(-(FND_DATA))
+ 404 02d2 8081      		ld r24,Z
+ 405 02d4 85BB      		out 53-32,r24
+ 406 02d6 F901      		movw r30,r18
+ 407 02d8 E050      		subi r30,lo8(-(fnd_sel))
+ 408 02da F040      		sbci r31,hi8(-(fnd_sel))
+ 409 02dc 8081      		ld r24,Z
+ 410 02de 8093 6500 		sts 101,r24
+ 411 02e2 2130      		cpi r18,1
+ 412 02e4 3105      		cpc r19,__zero_reg__
+ 413 02e6 01F4      		brne .L87
+ 414 02e8 AF9A      		sbi 53-32,7
+ 415 02ea 00C0      		rjmp .L87
+ 416               	.L88:
+ 417               	/* epilogue start */
+ 418 02ec 0F90      		pop __tmp_reg__
+ 419 02ee 0F90      		pop __tmp_reg__
+ 420 02f0 0F90      		pop __tmp_reg__
+ 421 02f2 0F90      		pop __tmp_reg__
+ 422 02f4 CF91      		pop r28
+ 423 02f6 DF91      		pop r29
+ 424 02f8 1F91      		pop r17
+ 425 02fa 0895      		ret
+ 426               	.L78:
+ 427 02fc 11E1      		ldi r17,lo8(17)
+ 428 02fe 2095      		com r18
+ 429 0300 3095      		com r19
+ 430 0302 2150      		subi r18,lo8(-(-1))
+ 431 0304 3040      		sbci r19,hi8(-(-1))
+ 432 0306 C901      		movw r24,r18
+ 433 0308 8070      		andi r24,lo8(32512)
+ 434 030a 9F77      		andi r25,hi8(32512)
+ 435 030c 492F      		mov r20,r25
+ 436 030e 27FF      		sbrs r18,7
+ 437 0310 00C0      		rjmp .L89
+ 438               	.L80:
+ 439 0312 B5E0      		ldi r27,lo8(5)
+ 440 0314 E5E0      		ldi r30,lo8(5)
+ 441 0316 F0E0      		ldi r31,hi8(5)
+ 442 0318 00C0      		rjmp .L81
+ 443               		.size	showTempFnd, .-showTempFnd
+ 444               	.global	showLightLed
+ 445               		.type	showLightLed, @function
+ 446               	showLightLed:
+ 447               	/* prologue: function */
+ 448               	/* frame size = 0 */
+ 449 031a 0E94 0000 		call show_adc
+ 450               	/* epilogue start */
+ 451 031e 0895      		ret
+ 452               		.size	showLightLed, .-showLightLed
+ 453               	.global	showLightFnd
+ 454               		.type	showLightFnd, @function
+ 455               	showLightFnd:
+ 456 0320 FF92      		push r15
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 9
+
+
+ 457 0322 0F93      		push r16
+ 458 0324 1F93      		push r17
+ 459               	/* prologue: function */
+ 460               	/* frame size = 0 */
+ 461 0326 9C01      		movw r18,r24
+ 462 0328 68EE      		ldi r22,lo8(1000)
+ 463 032a 73E0      		ldi r23,hi8(1000)
+ 464 032c 0E94 0000 		call __udivmodhi4
+ 465 0330 CB01      		movw r24,r22
+ 466 0332 6AE0      		ldi r22,lo8(10)
+ 467 0334 70E0      		ldi r23,hi8(10)
+ 468 0336 0E94 0000 		call __udivmodhi4
+ 469 033a F82E      		mov r15,r24
+ 470 033c C901      		movw r24,r18
+ 471 033e 64E6      		ldi r22,lo8(100)
+ 472 0340 70E0      		ldi r23,hi8(100)
+ 473 0342 0E94 0000 		call __udivmodhi4
+ 474 0346 CB01      		movw r24,r22
+ 475 0348 6AE0      		ldi r22,lo8(10)
+ 476 034a 70E0      		ldi r23,hi8(10)
+ 477 034c 0E94 0000 		call __udivmodhi4
+ 478 0350 082F      		mov r16,r24
+ 479 0352 C901      		movw r24,r18
+ 480 0354 6AE0      		ldi r22,lo8(10)
+ 481 0356 70E0      		ldi r23,hi8(10)
+ 482 0358 0E94 0000 		call __udivmodhi4
+ 483 035c CB01      		movw r24,r22
+ 484 035e 6AE0      		ldi r22,lo8(10)
+ 485 0360 70E0      		ldi r23,hi8(10)
+ 486 0362 0E94 0000 		call __udivmodhi4
+ 487 0366 182F      		mov r17,r24
+ 488 0368 C901      		movw r24,r18
+ 489 036a 6AE0      		ldi r22,lo8(10)
+ 490 036c 70E0      		ldi r23,hi8(10)
+ 491 036e 0E94 0000 		call __udivmodhi4
+ 492 0372 A0E0      		ldi r26,lo8(FND_DATA)
+ 493 0374 B0E0      		ldi r27,hi8(FND_DATA)
+ 494 0376 FD01      		movw r30,r26
+ 495 0378 E80F      		add r30,r24
+ 496 037a F11D      		adc r31,__zero_reg__
+ 497 037c 8081      		ld r24,Z
+ 498 037e 85BB      		out 53-32,r24
+ 499 0380 8091 0000 		lds r24,fnd_sel
+ 500 0384 45E6      		ldi r20,lo8(101)
+ 501 0386 50E0      		ldi r21,hi8(101)
+ 502 0388 FA01      		movw r30,r20
+ 503 038a 8083      		st Z,r24
+ 504 038c 20E4      		ldi r18,lo8(8000)
+ 505 038e 3FE1      		ldi r19,hi8(8000)
+ 506 0390 C901      		movw r24,r18
+ 507               	/* #APP */
+ 508               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 509 0392 0197      		1: sbiw r24,1
+ 510 0394 01F4      		brne 1b
+ 511               	 ;  0 "" 2
+ 512               	/* #NOAPP */
+ 513 0396 FD01      		movw r30,r26
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 10
+
+
+ 514 0398 E10F      		add r30,r17
+ 515 039a F11D      		adc r31,__zero_reg__
+ 516 039c 8081      		ld r24,Z
+ 517 039e 85BB      		out 53-32,r24
+ 518 03a0 8091 0000 		lds r24,fnd_sel+1
+ 519 03a4 FA01      		movw r30,r20
+ 520 03a6 8083      		st Z,r24
+ 521 03a8 C901      		movw r24,r18
+ 522               	/* #APP */
+ 523               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 524 03aa 0197      		1: sbiw r24,1
+ 525 03ac 01F4      		brne 1b
+ 526               	 ;  0 "" 2
+ 527               	/* #NOAPP */
+ 528 03ae FD01      		movw r30,r26
+ 529 03b0 E00F      		add r30,r16
+ 530 03b2 F11D      		adc r31,__zero_reg__
+ 531 03b4 8081      		ld r24,Z
+ 532 03b6 85BB      		out 53-32,r24
+ 533 03b8 8091 0000 		lds r24,fnd_sel+2
+ 534 03bc FA01      		movw r30,r20
+ 535 03be 8083      		st Z,r24
+ 536 03c0 C901      		movw r24,r18
+ 537               	/* #APP */
+ 538               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 539 03c2 0197      		1: sbiw r24,1
+ 540 03c4 01F4      		brne 1b
+ 541               	 ;  0 "" 2
+ 542               	/* #NOAPP */
+ 543 03c6 AF0D      		add r26,r15
+ 544 03c8 B11D      		adc r27,__zero_reg__
+ 545 03ca 8C91      		ld r24,X
+ 546 03cc 85BB      		out 53-32,r24
+ 547 03ce 8091 0000 		lds r24,fnd_sel+3
+ 548 03d2 8083      		st Z,r24
+ 549 03d4 C901      		movw r24,r18
+ 550               	/* #APP */
+ 551               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 552 03d6 0197      		1: sbiw r24,1
+ 553 03d8 01F4      		brne 1b
+ 554               	 ;  0 "" 2
+ 555               	/* epilogue start */
+ 556               	/* #NOAPP */
+ 557 03da 1F91      		pop r17
+ 558 03dc 0F91      		pop r16
+ 559 03de FF90      		pop r15
+ 560 03e0 0895      		ret
+ 561               		.size	showLightFnd, .-showLightFnd
+ 562               	.global	__vector_10
+ 563               		.type	__vector_10, @function
+ 564               	__vector_10:
+ 565 03e2 1F92      		push __zero_reg__
+ 566 03e4 0F92      		push r0
+ 567 03e6 0FB6      		in r0,__SREG__
+ 568 03e8 0F92      		push r0
+ 569 03ea 0BB6      		in r0,91-32
+ 570 03ec 0F92      		push r0
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 11
+
+
+ 571 03ee 1124      		clr __zero_reg__
+ 572 03f0 2F93      		push r18
+ 573 03f2 3F93      		push r19
+ 574 03f4 4F93      		push r20
+ 575 03f6 5F93      		push r21
+ 576 03f8 6F93      		push r22
+ 577 03fa 7F93      		push r23
+ 578 03fc 8F93      		push r24
+ 579 03fe 9F93      		push r25
+ 580 0400 AF93      		push r26
+ 581 0402 BF93      		push r27
+ 582 0404 EF93      		push r30
+ 583 0406 FF93      		push r31
+ 584 0408 DF93      		push r29
+ 585 040a CF93      		push r28
+ 586 040c 0F92      		push __tmp_reg__
+ 587 040e CDB7      		in r28,__SP_L__
+ 588 0410 DEB7      		in r29,__SP_H__
+ 589               	/* prologue: Signal */
+ 590               	/* frame size = 1 */
+ 591 0412 8091 0000 		lds r24,state
+ 592 0416 9091 0000 		lds r25,(state)+1
+ 593 041a 0197      		sbiw r24,1
+ 594 041c 01F0      		breq .L100
+ 595 041e 80E1      		ldi r24,lo8(16)
+ 596 0420 88BB      		out 56-32,r24
+ 597 0422 81E0      		ldi r24,lo8(1)
+ 598 0424 90E0      		ldi r25,hi8(1)
+ 599 0426 9093 0000 		sts (state)+1,r25
+ 600 042a 8093 0000 		sts state,r24
+ 601               	.L96:
+ 602 042e 8091 0000 		lds r24,sem
+ 603 0432 9091 0000 		lds r25,(sem)+1
+ 604 0436 60E0      		ldi r22,lo8(0)
+ 605 0438 70E0      		ldi r23,hi8(0)
+ 606 043a AE01      		movw r20,r28
+ 607 043c 4F5F      		subi r20,lo8(-(1))
+ 608 043e 5F4F      		sbci r21,hi8(-(1))
+ 609 0440 0E94 0000 		call OSSemPend
+ 610 0444 8091 0000 		lds r24,mode
+ 611 0448 8437      		cpi r24,lo8(116)
+ 612 044a 01F0      		breq .L101
+ 613 044c 8091 0000 		lds r24,mode
+ 614 0450 8C36      		cpi r24,lo8(108)
+ 615 0452 01F0      		breq .L102
+ 616               	.L98:
+ 617 0454 8091 0000 		lds r24,sem
+ 618 0458 9091 0000 		lds r25,(sem)+1
+ 619 045c 0E94 0000 		call OSSemPost
+ 620               	/* epilogue start */
+ 621 0460 0F90      		pop __tmp_reg__
+ 622 0462 CF91      		pop r28
+ 623 0464 DF91      		pop r29
+ 624 0466 FF91      		pop r31
+ 625 0468 EF91      		pop r30
+ 626 046a BF91      		pop r27
+ 627 046c AF91      		pop r26
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 12
+
+
+ 628 046e 9F91      		pop r25
+ 629 0470 8F91      		pop r24
+ 630 0472 7F91      		pop r23
+ 631 0474 6F91      		pop r22
+ 632 0476 5F91      		pop r21
+ 633 0478 4F91      		pop r20
+ 634 047a 3F91      		pop r19
+ 635 047c 2F91      		pop r18
+ 636 047e 0F90      		pop r0
+ 637 0480 0BBE      		out 91-32,r0
+ 638 0482 0F90      		pop r0
+ 639 0484 0FBE      		out __SREG__,r0
+ 640 0486 0F90      		pop r0
+ 641 0488 1F90      		pop __zero_reg__
+ 642 048a 1895      		reti
+ 643               	.L102:
+ 644 048c 89E8      		ldi r24,lo8(-119)
+ 645 048e 84BD      		out 68-32,r24
+ 646 0490 00C0      		rjmp .L98
+ 647               	.L100:
+ 648 0492 18BA      		out 56-32,__zero_reg__
+ 649 0494 1092 0000 		sts (state)+1,__zero_reg__
+ 650 0498 1092 0000 		sts state,__zero_reg__
+ 651 049c 00C0      		rjmp .L96
+ 652               	.L101:
+ 653 049e 81E1      		ldi r24,lo8(17)
+ 654 04a0 84BD      		out 68-32,r24
+ 655 04a2 00C0      		rjmp .L98
+ 656               		.size	__vector_10, .-__vector_10
+ 657               	.global	LightDisplayTask
+ 658               		.type	LightDisplayTask, @function
+ 659               	LightDisplayTask:
+ 660 04a4 CF92      		push r12
+ 661 04a6 DF92      		push r13
+ 662 04a8 EF92      		push r14
+ 663 04aa FF92      		push r15
+ 664 04ac 0F93      		push r16
+ 665 04ae 1F93      		push r17
+ 666 04b0 DF93      		push r29
+ 667 04b2 CF93      		push r28
+ 668 04b4 0F92      		push __tmp_reg__
+ 669 04b6 CDB7      		in r28,__SP_L__
+ 670 04b8 DEB7      		in r29,__SP_H__
+ 671               	/* prologue: function */
+ 672               	/* frame size = 1 */
+ 673 04ba 6E01      		movw r12,r28
+ 674 04bc 0894      		sec
+ 675 04be C11C      		adc r12,__zero_reg__
+ 676 04c0 D11C      		adc r13,__zero_reg__
+ 677               	.L105:
+ 678 04c2 8091 0000 		lds r24,sem
+ 679 04c6 9091 0000 		lds r25,(sem)+1
+ 680 04ca 60E0      		ldi r22,lo8(0)
+ 681 04cc 70E0      		ldi r23,hi8(0)
+ 682 04ce A601      		movw r20,r12
+ 683 04d0 0E94 0000 		call OSSemPend
+ 684 04d4 1091 0000 		lds r17,mode
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 13
+
+
+ 685 04d8 E090 0000 		lds r14,measured_value
+ 686 04dc F090 0000 		lds r15,(measured_value)+1
+ 687 04e0 8091 0000 		lds r24,sem
+ 688 04e4 9091 0000 		lds r25,(sem)+1
+ 689 04e8 0E94 0000 		call OSSemPost
+ 690 04ec 1C36      		cpi r17,lo8(108)
+ 691 04ee 01F0      		breq .L104
+ 692 04f0 8091 0000 		lds r24,f_lit_disp
+ 693 04f4 9091 0000 		lds r25,(f_lit_disp)+1
+ 694 04f8 61E0      		ldi r22,lo8(1)
+ 695 04fa 42E8      		ldi r20,lo8(-126)
+ 696 04fc 20E0      		ldi r18,lo8(0)
+ 697 04fe 30E0      		ldi r19,hi8(0)
+ 698 0500 8601      		movw r16,r12
+ 699 0502 0E94 0000 		call OSFlagPend
+ 700               	.L104:
+ 701               	/* #APP */
+ 702               	 ;  437 "lab2.c" 1
+ 703 0506 F894      		cli
+ 704               	 ;  0 "" 2
+ 705               	/* #NOAPP */
+ 706 0508 C701      		movw r24,r14
+ 707 050a 0E94 0000 		call show_adc
+ 708 050e C701      		movw r24,r14
+ 709 0510 0E94 0000 		call showLightFnd
+ 710               	/* #APP */
+ 711               	 ;  440 "lab2.c" 1
+ 712 0514 7894      		sei
+ 713               	 ;  0 "" 2
+ 714               	/* #NOAPP */
+ 715 0516 00C0      		rjmp .L105
+ 716               		.size	LightDisplayTask, .-LightDisplayTask
+ 717               	.global	TemperatureDisplayTask
+ 718               		.type	TemperatureDisplayTask, @function
+ 719               	TemperatureDisplayTask:
+ 720 0518 CF92      		push r12
+ 721 051a DF92      		push r13
+ 722 051c EF92      		push r14
+ 723 051e FF92      		push r15
+ 724 0520 0F93      		push r16
+ 725 0522 1F93      		push r17
+ 726 0524 DF93      		push r29
+ 727 0526 CF93      		push r28
+ 728 0528 0F92      		push __tmp_reg__
+ 729 052a CDB7      		in r28,__SP_L__
+ 730 052c DEB7      		in r29,__SP_H__
+ 731               	/* prologue: function */
+ 732               	/* frame size = 1 */
+ 733 052e 6E01      		movw r12,r28
+ 734 0530 0894      		sec
+ 735 0532 C11C      		adc r12,__zero_reg__
+ 736 0534 D11C      		adc r13,__zero_reg__
+ 737               	.L109:
+ 738 0536 8091 0000 		lds r24,sem
+ 739 053a 9091 0000 		lds r25,(sem)+1
+ 740 053e 60E0      		ldi r22,lo8(0)
+ 741 0540 70E0      		ldi r23,hi8(0)
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 14
+
+
+ 742 0542 A601      		movw r20,r12
+ 743 0544 0E94 0000 		call OSSemPend
+ 744 0548 1091 0000 		lds r17,mode
+ 745 054c E090 0000 		lds r14,measured_value
+ 746 0550 F090 0000 		lds r15,(measured_value)+1
+ 747 0554 8091 0000 		lds r24,sem
+ 748 0558 9091 0000 		lds r25,(sem)+1
+ 749 055c 0E94 0000 		call OSSemPost
+ 750 0560 1437      		cpi r17,lo8(116)
+ 751 0562 01F0      		breq .L108
+ 752 0564 8091 0000 		lds r24,f_tmp_disp
+ 753 0568 9091 0000 		lds r25,(f_tmp_disp)+1
+ 754 056c 61E0      		ldi r22,lo8(1)
+ 755 056e 42E8      		ldi r20,lo8(-126)
+ 756 0570 20E0      		ldi r18,lo8(0)
+ 757 0572 30E0      		ldi r19,hi8(0)
+ 758 0574 8601      		movw r16,r12
+ 759 0576 0E94 0000 		call OSFlagPend
+ 760               	.L108:
+ 761               	/* #APP */
+ 762               	 ;  414 "lab2.c" 1
+ 763 057a F894      		cli
+ 764               	 ;  0 "" 2
+ 765               	/* #NOAPP */
+ 766 057c C701      		movw r24,r14
+ 767 057e 0E94 0000 		call showTempLed
+ 768 0582 C701      		movw r24,r14
+ 769 0584 0E94 0000 		call showTempFnd
+ 770               	/* #APP */
+ 771               	 ;  417 "lab2.c" 1
+ 772 0588 7894      		sei
+ 773               	 ;  0 "" 2
+ 774               	/* #NOAPP */
+ 775 058a 00C0      		rjmp .L109
+ 776               		.size	TemperatureDisplayTask, .-TemperatureDisplayTask
+ 777               	.global	__vector_6
+ 778               		.type	__vector_6, @function
+ 779               	__vector_6:
+ 780 058c 1F92      		push __zero_reg__
+ 781 058e 0F92      		push r0
+ 782 0590 0FB6      		in r0,__SREG__
+ 783 0592 0F92      		push r0
+ 784 0594 0BB6      		in r0,91-32
+ 785 0596 0F92      		push r0
+ 786 0598 1124      		clr __zero_reg__
+ 787 059a 0F93      		push r16
+ 788 059c 1F93      		push r17
+ 789 059e 2F93      		push r18
+ 790 05a0 3F93      		push r19
+ 791 05a2 4F93      		push r20
+ 792 05a4 5F93      		push r21
+ 793 05a6 6F93      		push r22
+ 794 05a8 7F93      		push r23
+ 795 05aa 8F93      		push r24
+ 796 05ac 9F93      		push r25
+ 797 05ae AF93      		push r26
+ 798 05b0 BF93      		push r27
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 15
+
+
+ 799 05b2 EF93      		push r30
+ 800 05b4 FF93      		push r31
+ 801 05b6 DF93      		push r29
+ 802 05b8 CF93      		push r28
+ 803 05ba 0F92      		push __tmp_reg__
+ 804 05bc CDB7      		in r28,__SP_L__
+ 805 05be DEB7      		in r29,__SP_H__
+ 806               	/* prologue: Signal */
+ 807               	/* frame size = 1 */
+ 808               	/* #APP */
+ 809               	 ;  112 "lab2.c" 1
+ 810 05c0 F894      		cli
+ 811               	 ;  0 "" 2
+ 812               	/* #NOAPP */
+ 813 05c2 8091 0000 		lds r24,sem
+ 814 05c6 9091 0000 		lds r25,(sem)+1
+ 815 05ca 60E0      		ldi r22,lo8(0)
+ 816 05cc 70E0      		ldi r23,hi8(0)
+ 817 05ce 8E01      		movw r16,r28
+ 818 05d0 0F5F      		subi r16,lo8(-(1))
+ 819 05d2 1F4F      		sbci r17,hi8(-(1))
+ 820 05d4 A801      		movw r20,r16
+ 821 05d6 0E94 0000 		call OSSemPend
+ 822 05da 8CE6      		ldi r24,lo8(108)
+ 823 05dc 8093 0000 		sts mode,r24
+ 824 05e0 1092 0000 		sts (measured_value)+1,__zero_reg__
+ 825 05e4 1092 0000 		sts measured_value,__zero_reg__
+ 826 05e8 8091 0000 		lds r24,sem
+ 827 05ec 9091 0000 		lds r25,(sem)+1
+ 828 05f0 0E94 0000 		call OSSemPost
+ 829 05f4 87B7      		in r24,87-32
+ 830 05f6 8064      		ori r24,lo8(64)
+ 831 05f8 87BF      		out 87-32,r24
+ 832 05fa 80E4      		ldi r24,lo8(-25536)
+ 833 05fc 9CE9      		ldi r25,hi8(-25536)
+ 834               	/* #APP */
+ 835               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 836 05fe 0197      		1: sbiw r24,1
+ 837 0600 01F4      		brne 1b
+ 838               	 ;  0 "" 2
+ 839               	/* #NOAPP */
+ 840 0602 87B7      		in r24,87-32
+ 841 0604 8F7B      		andi r24,lo8(-65)
+ 842 0606 87BF      		out 87-32,r24
+ 843 0608 8091 0000 		lds r24,f_lit
+ 844 060c 9091 0000 		lds r25,(f_lit)+1
+ 845 0610 61E0      		ldi r22,lo8(1)
+ 846 0612 41E0      		ldi r20,lo8(1)
+ 847 0614 9801      		movw r18,r16
+ 848 0616 0E94 0000 		call OSFlagPost
+ 849               	/* #APP */
+ 850               	 ;  125 "lab2.c" 1
+ 851 061a 7894      		sei
+ 852               	 ;  0 "" 2
+ 853               	/* epilogue start */
+ 854               	/* #NOAPP */
+ 855 061c 0F90      		pop __tmp_reg__
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 16
+
+
+ 856 061e CF91      		pop r28
+ 857 0620 DF91      		pop r29
+ 858 0622 FF91      		pop r31
+ 859 0624 EF91      		pop r30
+ 860 0626 BF91      		pop r27
+ 861 0628 AF91      		pop r26
+ 862 062a 9F91      		pop r25
+ 863 062c 8F91      		pop r24
+ 864 062e 7F91      		pop r23
+ 865 0630 6F91      		pop r22
+ 866 0632 5F91      		pop r21
+ 867 0634 4F91      		pop r20
+ 868 0636 3F91      		pop r19
+ 869 0638 2F91      		pop r18
+ 870 063a 1F91      		pop r17
+ 871 063c 0F91      		pop r16
+ 872 063e 0F90      		pop r0
+ 873 0640 0BBE      		out 91-32,r0
+ 874 0642 0F90      		pop r0
+ 875 0644 0FBE      		out __SREG__,r0
+ 876 0646 0F90      		pop r0
+ 877 0648 1F90      		pop __zero_reg__
+ 878 064a 1895      		reti
+ 879               		.size	__vector_6, .-__vector_6
+ 880               	.global	__vector_5
+ 881               		.type	__vector_5, @function
+ 882               	__vector_5:
+ 883 064c 1F92      		push __zero_reg__
+ 884 064e 0F92      		push r0
+ 885 0650 0FB6      		in r0,__SREG__
+ 886 0652 0F92      		push r0
+ 887 0654 0BB6      		in r0,91-32
+ 888 0656 0F92      		push r0
+ 889 0658 1124      		clr __zero_reg__
+ 890 065a 0F93      		push r16
+ 891 065c 1F93      		push r17
+ 892 065e 2F93      		push r18
+ 893 0660 3F93      		push r19
+ 894 0662 4F93      		push r20
+ 895 0664 5F93      		push r21
+ 896 0666 6F93      		push r22
+ 897 0668 7F93      		push r23
+ 898 066a 8F93      		push r24
+ 899 066c 9F93      		push r25
+ 900 066e AF93      		push r26
+ 901 0670 BF93      		push r27
+ 902 0672 EF93      		push r30
+ 903 0674 FF93      		push r31
+ 904 0676 DF93      		push r29
+ 905 0678 CF93      		push r28
+ 906 067a 0F92      		push __tmp_reg__
+ 907 067c CDB7      		in r28,__SP_L__
+ 908 067e DEB7      		in r29,__SP_H__
+ 909               	/* prologue: Signal */
+ 910               	/* frame size = 1 */
+ 911               	/* #APP */
+ 912               	 ;  93 "lab2.c" 1
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 17
+
+
+ 913 0680 F894      		cli
+ 914               	 ;  0 "" 2
+ 915               	/* #NOAPP */
+ 916 0682 8091 0000 		lds r24,sem
+ 917 0686 9091 0000 		lds r25,(sem)+1
+ 918 068a 60E0      		ldi r22,lo8(0)
+ 919 068c 70E0      		ldi r23,hi8(0)
+ 920 068e 8E01      		movw r16,r28
+ 921 0690 0F5F      		subi r16,lo8(-(1))
+ 922 0692 1F4F      		sbci r17,hi8(-(1))
+ 923 0694 A801      		movw r20,r16
+ 924 0696 0E94 0000 		call OSSemPend
+ 925 069a 84E7      		ldi r24,lo8(116)
+ 926 069c 8093 0000 		sts mode,r24
+ 927 06a0 1092 0000 		sts (measured_value)+1,__zero_reg__
+ 928 06a4 1092 0000 		sts measured_value,__zero_reg__
+ 929 06a8 8091 0000 		lds r24,sem
+ 930 06ac 9091 0000 		lds r25,(sem)+1
+ 931 06b0 0E94 0000 		call OSSemPost
+ 932 06b4 87B7      		in r24,87-32
+ 933 06b6 8064      		ori r24,lo8(64)
+ 934 06b8 87BF      		out 87-32,r24
+ 935 06ba 80E4      		ldi r24,lo8(-25536)
+ 936 06bc 9CE9      		ldi r25,hi8(-25536)
+ 937               	/* #APP */
+ 938               	 ;  105 "d:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 939 06be 0197      		1: sbiw r24,1
+ 940 06c0 01F4      		brne 1b
+ 941               	 ;  0 "" 2
+ 942               	/* #NOAPP */
+ 943 06c2 87B7      		in r24,87-32
+ 944 06c4 8F7B      		andi r24,lo8(-65)
+ 945 06c6 87BF      		out 87-32,r24
+ 946 06c8 8091 0000 		lds r24,f_tmp
+ 947 06cc 9091 0000 		lds r25,(f_tmp)+1
+ 948 06d0 61E0      		ldi r22,lo8(1)
+ 949 06d2 41E0      		ldi r20,lo8(1)
+ 950 06d4 9801      		movw r18,r16
+ 951 06d6 0E94 0000 		call OSFlagPost
+ 952               	/* #APP */
+ 953               	 ;  107 "lab2.c" 1
+ 954 06da 7894      		sei
+ 955               	 ;  0 "" 2
+ 956               	/* epilogue start */
+ 957               	/* #NOAPP */
+ 958 06dc 0F90      		pop __tmp_reg__
+ 959 06de CF91      		pop r28
+ 960 06e0 DF91      		pop r29
+ 961 06e2 FF91      		pop r31
+ 962 06e4 EF91      		pop r30
+ 963 06e6 BF91      		pop r27
+ 964 06e8 AF91      		pop r26
+ 965 06ea 9F91      		pop r25
+ 966 06ec 8F91      		pop r24
+ 967 06ee 7F91      		pop r23
+ 968 06f0 6F91      		pop r22
+ 969 06f2 5F91      		pop r21
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 18
+
+
+ 970 06f4 4F91      		pop r20
+ 971 06f6 3F91      		pop r19
+ 972 06f8 2F91      		pop r18
+ 973 06fa 1F91      		pop r17
+ 974 06fc 0F91      		pop r16
+ 975 06fe 0F90      		pop r0
+ 976 0700 0BBE      		out 91-32,r0
+ 977 0702 0F90      		pop r0
+ 978 0704 0FBE      		out __SREG__,r0
+ 979 0706 0F90      		pop r0
+ 980 0708 1F90      		pop __zero_reg__
+ 981 070a 1895      		reti
+ 982               		.size	__vector_5, .-__vector_5
+ 983               	.global	DeliveryTask
+ 984               		.type	DeliveryTask, @function
+ 985               	DeliveryTask:
+ 986 070c EF92      		push r14
+ 987 070e FF92      		push r15
+ 988 0710 1F93      		push r17
+ 989 0712 DF93      		push r29
+ 990 0714 CF93      		push r28
+ 991 0716 0F92      		push __tmp_reg__
+ 992 0718 CDB7      		in r28,__SP_L__
+ 993 071a DEB7      		in r29,__SP_H__
+ 994               	/* prologue: function */
+ 995               	/* frame size = 1 */
+ 996 071c 7E01      		movw r14,r28
+ 997 071e 0894      		sec
+ 998 0720 E11C      		adc r14,__zero_reg__
+ 999 0722 F11C      		adc r15,__zero_reg__
+ 1000 0724 00C0      		rjmp .L118
+ 1001               	.L116:
+ 1002 0726 8091 0000 		lds r24,f_lit_disp
+ 1003 072a 9091 0000 		lds r25,(f_lit_disp)+1
+ 1004 072e 61E0      		ldi r22,lo8(1)
+ 1005 0730 41E0      		ldi r20,lo8(1)
+ 1006 0732 9701      		movw r18,r14
+ 1007 0734 0E94 0000 		call OSFlagPost
+ 1008               	.L117:
+ 1009               	/* #APP */
+ 1010               	 ;  393 "lab2.c" 1
+ 1011 0738 7894      		sei
+ 1012               	 ;  0 "" 2
+ 1013               	/* #NOAPP */
+ 1014 073a 84E6      		ldi r24,lo8(100)
+ 1015 073c 90E0      		ldi r25,hi8(100)
+ 1016 073e 0E94 0000 		call OSTimeDly
+ 1017               	.L118:
+ 1018               	/* #APP */
+ 1019               	 ;  381 "lab2.c" 1
+ 1020 0742 F894      		cli
+ 1021               	 ;  0 "" 2
+ 1022               	/* #NOAPP */
+ 1023 0744 8091 0000 		lds r24,sem
+ 1024 0748 9091 0000 		lds r25,(sem)+1
+ 1025 074c 60E0      		ldi r22,lo8(0)
+ 1026 074e 70E0      		ldi r23,hi8(0)
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 19
+
+
+ 1027 0750 A701      		movw r20,r14
+ 1028 0752 0E94 0000 		call OSSemPend
+ 1029 0756 1091 0000 		lds r17,mode
+ 1030 075a 8091 0000 		lds r24,sem
+ 1031 075e 9091 0000 		lds r25,(sem)+1
+ 1032 0762 0E94 0000 		call OSSemPost
+ 1033 0766 8091 0000 		lds r24,Mbox
+ 1034 076a 9091 0000 		lds r25,(Mbox)+1
+ 1035 076e 60E0      		ldi r22,lo8(0)
+ 1036 0770 70E0      		ldi r23,hi8(0)
+ 1037 0772 A701      		movw r20,r14
+ 1038 0774 0E94 0000 		call OSMboxPend
+ 1039 0778 FC01      		movw r30,r24
+ 1040 077a 8081      		ld r24,Z
+ 1041 077c 9181      		ldd r25,Z+1
+ 1042 077e 9093 0000 		sts (measured_value)+1,r25
+ 1043 0782 8093 0000 		sts measured_value,r24
+ 1044 0786 1437      		cpi r17,lo8(116)
+ 1045 0788 01F4      		brne .L116
+ 1046 078a 8091 0000 		lds r24,f_tmp_disp
+ 1047 078e 9091 0000 		lds r25,(f_tmp_disp)+1
+ 1048 0792 61E0      		ldi r22,lo8(1)
+ 1049 0794 41E0      		ldi r20,lo8(1)
+ 1050 0796 9701      		movw r18,r14
+ 1051 0798 0E94 0000 		call OSFlagPost
+ 1052 079c 00C0      		rjmp .L117
+ 1053               		.size	DeliveryTask, .-DeliveryTask
+ 1054               	.global	LightReadTask
+ 1055               		.type	LightReadTask, @function
+ 1056               	LightReadTask:
+ 1057 079e CF92      		push r12
+ 1058 07a0 DF92      		push r13
+ 1059 07a2 EF92      		push r14
+ 1060 07a4 FF92      		push r15
+ 1061 07a6 0F93      		push r16
+ 1062 07a8 1F93      		push r17
+ 1063 07aa DF93      		push r29
+ 1064 07ac CF93      		push r28
+ 1065 07ae 00D0      		rcall .
+ 1066 07b0 0F92      		push __tmp_reg__
+ 1067 07b2 CDB7      		in r28,__SP_L__
+ 1068 07b4 DEB7      		in r29,__SP_H__
+ 1069               	/* prologue: function */
+ 1070               	/* frame size = 3 */
+ 1071 07b6 1B82      		std Y+3,__zero_reg__
+ 1072 07b8 1A82      		std Y+2,__zero_reg__
+ 1073 07ba 17B8      		out 39-32,__zero_reg__
+ 1074 07bc 87E8      		ldi r24,lo8(-121)
+ 1075 07be 86B9      		out 38-32,r24
+ 1076 07c0 7E01      		movw r14,r28
+ 1077 07c2 0894      		sec
+ 1078 07c4 E11C      		adc r14,__zero_reg__
+ 1079 07c6 F11C      		adc r15,__zero_reg__
+ 1080 07c8 92E0      		ldi r25,lo8(2)
+ 1081 07ca C92E      		mov r12,r25
+ 1082 07cc D12C      		mov r13,__zero_reg__
+ 1083 07ce CC0E      		add r12,r28
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 20
+
+
+ 1084 07d0 DD1E      		adc r13,r29
+ 1085               	.L122:
+ 1086 07d2 8091 0000 		lds r24,sem
+ 1087 07d6 9091 0000 		lds r25,(sem)+1
+ 1088 07da 60E0      		ldi r22,lo8(0)
+ 1089 07dc 70E0      		ldi r23,hi8(0)
+ 1090 07de A701      		movw r20,r14
+ 1091 07e0 0E94 0000 		call OSSemPend
+ 1092 07e4 1091 0000 		lds r17,mode
+ 1093 07e8 8091 0000 		lds r24,sem
+ 1094 07ec 9091 0000 		lds r25,(sem)+1
+ 1095 07f0 0E94 0000 		call OSSemPost
+ 1096 07f4 1C36      		cpi r17,lo8(108)
+ 1097 07f6 01F0      		breq .L121
+ 1098 07f8 8091 0000 		lds r24,f_lit
+ 1099 07fc 9091 0000 		lds r25,(f_lit)+1
+ 1100 0800 61E0      		ldi r22,lo8(1)
+ 1101 0802 42E8      		ldi r20,lo8(-126)
+ 1102 0804 20E0      		ldi r18,lo8(0)
+ 1103 0806 30E0      		ldi r19,hi8(0)
+ 1104 0808 8701      		movw r16,r14
+ 1105 080a 0E94 0000 		call OSFlagPend
+ 1106               	.L121:
+ 1107               	/* #APP */
+ 1108               	 ;  366 "lab2.c" 1
+ 1109 080e F894      		cli
+ 1110               	 ;  0 "" 2
+ 1111               	/* #NOAPP */
+ 1112 0810 0E94 0000 		call read_adc
+ 1113 0814 9B83      		std Y+3,r25
+ 1114 0816 8A83      		std Y+2,r24
+ 1115 0818 8091 0000 		lds r24,Mbox
+ 1116 081c 9091 0000 		lds r25,(Mbox)+1
+ 1117 0820 B601      		movw r22,r12
+ 1118 0822 0E94 0000 		call OSMboxPost
+ 1119               	/* #APP */
+ 1120               	 ;  369 "lab2.c" 1
+ 1121 0826 7894      		sei
+ 1122               	 ;  0 "" 2
+ 1123               	/* #NOAPP */
+ 1124 0828 84E6      		ldi r24,lo8(100)
+ 1125 082a 90E0      		ldi r25,hi8(100)
+ 1126 082c 0E94 0000 		call OSTimeDly
+ 1127 0830 00C0      		rjmp .L122
+ 1128               		.size	LightReadTask, .-LightReadTask
+ 1129               	.global	TemperatureReadTask
+ 1130               		.type	TemperatureReadTask, @function
+ 1131               	TemperatureReadTask:
+ 1132 0832 CF92      		push r12
+ 1133 0834 DF92      		push r13
+ 1134 0836 EF92      		push r14
+ 1135 0838 FF92      		push r15
+ 1136 083a 0F93      		push r16
+ 1137 083c 1F93      		push r17
+ 1138 083e DF93      		push r29
+ 1139 0840 CF93      		push r28
+ 1140 0842 00D0      		rcall .
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 21
+
+
+ 1141 0844 0F92      		push __tmp_reg__
+ 1142 0846 CDB7      		in r28,__SP_L__
+ 1143 0848 DEB7      		in r29,__SP_H__
+ 1144               	/* prologue: function */
+ 1145               	/* frame size = 3 */
+ 1146 084a 1B82      		std Y+3,__zero_reg__
+ 1147 084c 1A82      		std Y+2,__zero_reg__
+ 1148 084e 0E94 0000 		call InitI2C
+ 1149 0852 81E0      		ldi r24,lo8(1)
+ 1150 0854 60E0      		ldi r22,lo8(0)
+ 1151 0856 0E94 0000 		call write_twi_1byte_nopreset
+ 1152 085a 80E0      		ldi r24,lo8(0)
+ 1153 085c 0E94 0000 		call write_twi_0byte_nopreset
+ 1154 0860 7E01      		movw r14,r28
+ 1155 0862 0894      		sec
+ 1156 0864 E11C      		adc r14,__zero_reg__
+ 1157 0866 F11C      		adc r15,__zero_reg__
+ 1158 0868 22E0      		ldi r18,lo8(2)
+ 1159 086a C22E      		mov r12,r18
+ 1160 086c D12C      		mov r13,__zero_reg__
+ 1161 086e CC0E      		add r12,r28
+ 1162 0870 DD1E      		adc r13,r29
+ 1163               	.L126:
+ 1164 0872 8091 0000 		lds r24,sem
+ 1165 0876 9091 0000 		lds r25,(sem)+1
+ 1166 087a 60E0      		ldi r22,lo8(0)
+ 1167 087c 70E0      		ldi r23,hi8(0)
+ 1168 087e A701      		movw r20,r14
+ 1169 0880 0E94 0000 		call OSSemPend
+ 1170 0884 1091 0000 		lds r17,mode
+ 1171 0888 8091 0000 		lds r24,sem
+ 1172 088c 9091 0000 		lds r25,(sem)+1
+ 1173 0890 0E94 0000 		call OSSemPost
+ 1174 0894 1437      		cpi r17,lo8(116)
+ 1175 0896 01F0      		breq .L125
+ 1176 0898 8091 0000 		lds r24,f_tmp
+ 1177 089c 9091 0000 		lds r25,(f_tmp)+1
+ 1178 08a0 61E0      		ldi r22,lo8(1)
+ 1179 08a2 42E8      		ldi r20,lo8(-126)
+ 1180 08a4 20E0      		ldi r18,lo8(0)
+ 1181 08a6 30E0      		ldi r19,hi8(0)
+ 1182 08a8 8701      		movw r16,r14
+ 1183 08aa 0E94 0000 		call OSFlagPend
+ 1184               	.L125:
+ 1185               	/* #APP */
+ 1186               	 ;  340 "lab2.c" 1
+ 1187 08ae F894      		cli
+ 1188               	 ;  0 "" 2
+ 1189               	/* #NOAPP */
+ 1190 08b0 0E94 0000 		call ReadTemperature
+ 1191 08b4 9B83      		std Y+3,r25
+ 1192 08b6 8A83      		std Y+2,r24
+ 1193 08b8 8091 0000 		lds r24,Mbox
+ 1194 08bc 9091 0000 		lds r25,(Mbox)+1
+ 1195 08c0 B601      		movw r22,r12
+ 1196 08c2 0E94 0000 		call OSMboxPost
+ 1197               	/* #APP */
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 22
+
+
+ 1198               	 ;  343 "lab2.c" 1
+ 1199 08c6 7894      		sei
+ 1200               	 ;  0 "" 2
+ 1201               	/* #NOAPP */
+ 1202 08c8 84E6      		ldi r24,lo8(100)
+ 1203 08ca 90E0      		ldi r25,hi8(100)
+ 1204 08cc 0E94 0000 		call OSTimeDly
+ 1205 08d0 00C0      		rjmp .L126
+ 1206               		.size	TemperatureReadTask, .-TemperatureReadTask
+ 1207               	.global	main
+ 1208               		.type	main, @function
+ 1209               	main:
+ 1210 08d2 0F93      		push r16
+ 1211 08d4 1F93      		push r17
+ 1212 08d6 DF93      		push r29
+ 1213 08d8 CF93      		push r28
+ 1214 08da 0F92      		push __tmp_reg__
+ 1215 08dc CDB7      		in r28,__SP_L__
+ 1216 08de DEB7      		in r29,__SP_H__
+ 1217               	/* prologue: function */
+ 1218               	/* frame size = 1 */
+ 1219 08e0 0E94 0000 		call OSInit
+ 1220               	/* #APP */
+ 1221               	 ;  131 "lab2.c" 1
+ 1222 08e4 F894      		cli
+ 1223               	 ;  0 "" 2
+ 1224               	/* #NOAPP */
+ 1225 08e6 9FEF      		ldi r25,lo8(-1)
+ 1226 08e8 9ABB      		out 58-32,r25
+ 1227 08ea 80E1      		ldi r24,lo8(16)
+ 1228 08ec 87BB      		out 55-32,r24
+ 1229 08ee 8FEC      		ldi r24,lo8(-49)
+ 1230 08f0 82B9      		out 34-32,r24
+ 1231 08f2 94BB      		out 52-32,r25
+ 1232 08f4 8FE0      		ldi r24,lo8(15)
+ 1233 08f6 8093 6400 		sts 100,r24
+ 1234 08fa 87E0      		ldi r24,lo8(7)
+ 1235 08fc 83BF      		out 83-32,r24
+ 1236 08fe 84E6      		ldi r24,lo8(100)
+ 1237 0900 82BF      		out 82-32,r24
+ 1238 0902 83E0      		ldi r24,lo8(3)
+ 1239 0904 85BD      		out 69-32,r24
+ 1240 0906 81E1      		ldi r24,lo8(17)
+ 1241 0908 84BD      		out 68-32,r24
+ 1242 090a 81E0      		ldi r24,lo8(1)
+ 1243 090c 87BF      		out 87-32,r24
+ 1244 090e 8AE0      		ldi r24,lo8(10)
+ 1245 0910 8ABF      		out 90-32,r24
+ 1246 0912 80E3      		ldi r24,lo8(48)
+ 1247 0914 89BF      		out 89-32,r24
+ 1248 0916 8FB7      		in r24,__SREG__
+ 1249 0918 8068      		ori r24,lo8(-128)
+ 1250 091a 8FBF      		out __SREG__,r24
+ 1251               	/* #APP */
+ 1252               	 ;  148 "lab2.c" 1
+ 1253 091c 7894      		sei
+ 1254               	 ;  0 "" 2
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 23
+
+
+ 1255               	/* #NOAPP */
+ 1256 091e 80E0      		ldi r24,lo8(0)
+ 1257 0920 90E0      		ldi r25,hi8(0)
+ 1258 0922 0E94 0000 		call OSMboxCreate
+ 1259 0926 9093 0000 		sts (Mbox)+1,r25
+ 1260 092a 8093 0000 		sts Mbox,r24
+ 1261 092e 81E0      		ldi r24,lo8(1)
+ 1262 0930 90E0      		ldi r25,hi8(1)
+ 1263 0932 0E94 0000 		call OSSemCreate
+ 1264 0936 9093 0000 		sts (sem)+1,r25
+ 1265 093a 8093 0000 		sts sem,r24
+ 1266 093e 80E0      		ldi r24,lo8(0)
+ 1267 0940 8E01      		movw r16,r28
+ 1268 0942 0F5F      		subi r16,lo8(-(1))
+ 1269 0944 1F4F      		sbci r17,hi8(-(1))
+ 1270 0946 B801      		movw r22,r16
+ 1271 0948 0E94 0000 		call OSFlagCreate
+ 1272 094c 9093 0000 		sts (f_tmp)+1,r25
+ 1273 0950 8093 0000 		sts f_tmp,r24
+ 1274 0954 80E0      		ldi r24,lo8(0)
+ 1275 0956 B801      		movw r22,r16
+ 1276 0958 0E94 0000 		call OSFlagCreate
+ 1277 095c 9093 0000 		sts (f_lit)+1,r25
+ 1278 0960 8093 0000 		sts f_lit,r24
+ 1279 0964 80E0      		ldi r24,lo8(0)
+ 1280 0966 B801      		movw r22,r16
+ 1281 0968 0E94 0000 		call OSFlagCreate
+ 1282 096c 9093 0000 		sts (f_tmp_disp)+1,r25
+ 1283 0970 8093 0000 		sts f_tmp_disp,r24
+ 1284 0974 80E0      		ldi r24,lo8(0)
+ 1285 0976 B801      		movw r22,r16
+ 1286 0978 0E94 0000 		call OSFlagCreate
+ 1287 097c 9093 0000 		sts (f_lit_disp)+1,r25
+ 1288 0980 8093 0000 		sts f_lit_disp,r24
+ 1289 0984 80E0      		ldi r24,lo8(gs(TemperatureReadTask))
+ 1290 0986 90E0      		ldi r25,hi8(gs(TemperatureReadTask))
+ 1291 0988 60E0      		ldi r22,lo8(0)
+ 1292 098a 70E0      		ldi r23,hi8(0)
+ 1293 098c 40E0      		ldi r20,lo8(TaskStk+127)
+ 1294 098e 50E0      		ldi r21,hi8(TaskStk+127)
+ 1295 0990 20E0      		ldi r18,lo8(0)
+ 1296 0992 0E94 0000 		call OSTaskCreate
+ 1297 0996 80E0      		ldi r24,lo8(gs(LightReadTask))
+ 1298 0998 90E0      		ldi r25,hi8(gs(LightReadTask))
+ 1299 099a 60E0      		ldi r22,lo8(0)
+ 1300 099c 70E0      		ldi r23,hi8(0)
+ 1301 099e 40E0      		ldi r20,lo8(TaskStk+255)
+ 1302 09a0 50E0      		ldi r21,hi8(TaskStk+255)
+ 1303 09a2 21E0      		ldi r18,lo8(1)
+ 1304 09a4 0E94 0000 		call OSTaskCreate
+ 1305 09a8 80E0      		ldi r24,lo8(gs(DeliveryTask))
+ 1306 09aa 90E0      		ldi r25,hi8(gs(DeliveryTask))
+ 1307 09ac 60E0      		ldi r22,lo8(0)
+ 1308 09ae 70E0      		ldi r23,hi8(0)
+ 1309 09b0 40E0      		ldi r20,lo8(TaskStk+383)
+ 1310 09b2 50E0      		ldi r21,hi8(TaskStk+383)
+ 1311 09b4 22E0      		ldi r18,lo8(2)
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 24
+
+
+ 1312 09b6 0E94 0000 		call OSTaskCreate
+ 1313 09ba 80E0      		ldi r24,lo8(gs(TemperatureDisplayTask))
+ 1314 09bc 90E0      		ldi r25,hi8(gs(TemperatureDisplayTask))
+ 1315 09be 60E0      		ldi r22,lo8(0)
+ 1316 09c0 70E0      		ldi r23,hi8(0)
+ 1317 09c2 40E0      		ldi r20,lo8(TaskStk+511)
+ 1318 09c4 50E0      		ldi r21,hi8(TaskStk+511)
+ 1319 09c6 23E0      		ldi r18,lo8(3)
+ 1320 09c8 0E94 0000 		call OSTaskCreate
+ 1321 09cc 80E0      		ldi r24,lo8(gs(LightDisplayTask))
+ 1322 09ce 90E0      		ldi r25,hi8(gs(LightDisplayTask))
+ 1323 09d0 60E0      		ldi r22,lo8(0)
+ 1324 09d2 70E0      		ldi r23,hi8(0)
+ 1325 09d4 40E0      		ldi r20,lo8(TaskStk+639)
+ 1326 09d6 50E0      		ldi r21,hi8(TaskStk+639)
+ 1327 09d8 24E0      		ldi r18,lo8(4)
+ 1328 09da 0E94 0000 		call OSTaskCreate
+ 1329 09de 0E94 0000 		call OSStart
+ 1330 09e2 80E0      		ldi r24,lo8(0)
+ 1331 09e4 90E0      		ldi r25,hi8(0)
+ 1332               	/* epilogue start */
+ 1333 09e6 0F90      		pop __tmp_reg__
+ 1334 09e8 CF91      		pop r28
+ 1335 09ea DF91      		pop r29
+ 1336 09ec 1F91      		pop r17
+ 1337 09ee 0F91      		pop r16
+ 1338 09f0 0895      		ret
+ 1339               		.size	main, .-main
+ 1340               	.global	mode
+ 1341               		.data
+ 1342               		.type	mode, @object
+ 1343               		.size	mode, 1
+ 1344               	mode:
+ 1345 0000 74        		.byte	116
+ 1346               	.global	state
+ 1347               	.global	state
+ 1348               		.section .bss
+ 1349               		.type	state, @object
+ 1350               		.size	state, 2
+ 1351               	state:
+ 1352 0000 0000      		.skip 2,0
+ 1353               	.global	FND_DATA
+ 1354               		.data
+ 1355               		.type	FND_DATA, @object
+ 1356               		.size	FND_DATA, 20
+ 1357               	FND_DATA:
+ 1358 0001 3F        		.byte	63
+ 1359 0002 06        		.byte	6
+ 1360 0003 5B        		.byte	91
+ 1361 0004 4F        		.byte	79
+ 1362 0005 66        		.byte	102
+ 1363 0006 6D        		.byte	109
+ 1364 0007 7D        		.byte	125
+ 1365 0008 27        		.byte	39
+ 1366 0009 7F        		.byte	127
+ 1367 000a 6F        		.byte	111
+ 1368 000b 77        		.byte	119
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 25
+
+
+ 1369 000c 7C        		.byte	124
+ 1370 000d 39        		.byte	57
+ 1371 000e 5E        		.byte	94
+ 1372 000f 79        		.byte	121
+ 1373 0010 71        		.byte	113
+ 1374 0011 80        		.byte	-128
+ 1375 0012 40        		.byte	64
+ 1376 0013 08        		.byte	8
+ 1377 0014 00        		.byte	0
+ 1378               	.global	fnd_sel
+ 1379               		.type	fnd_sel, @object
+ 1380               		.size	fnd_sel, 4
+ 1381               	fnd_sel:
+ 1382 0015 01        		.byte	1
+ 1383 0016 02        		.byte	2
+ 1384 0017 04        		.byte	4
+ 1385 0018 08        		.byte	8
+ 1386               		.comm TaskStk,640,1
+ 1387               		.comm Mbox,2,1
+ 1388               		.comm sem,2,1
+ 1389               		.comm f_tmp,2,1
+ 1390               		.comm f_lit,2,1
+ 1391               		.comm f_tmp_disp,2,1
+ 1392               		.comm f_lit_disp,2,1
+ 1393               		.comm measured_value,2,1
+ 1394               	.global __do_copy_data
+ 1395               	.global __do_clear_bss
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 26
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 lab2.c
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:2      *ABS*:0000003f __SREG__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:3      *ABS*:0000003e __SP_H__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:4      *ABS*:0000003d __SP_L__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:5      *ABS*:00000034 __CCP__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:11     .text:00000000 InitI2C
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:29     .text:0000001c init_adc
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:40     .text:00000024 read_adc
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:60     .text:0000003c show_adc
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:116    .text:00000098 write_twi_1byte_nopreset
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:176    .text:0000011a write_twi_0byte_nopreset
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:225    .text:00000180 ReadTemperature
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:290    .text:0000020c showTempLed
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:335    .text:00000252 showTempFnd
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1357   .data:00000001 FND_DATA
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1381   .data:00000015 fnd_sel
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:446    .text:0000031a showLightLed
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:455    .text:00000320 showLightFnd
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:564    .text:000003e2 __vector_10
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1351   .bss:00000000 state
+                            *COM*:00000002 sem
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1344   .data:00000000 mode
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:659    .text:000004a4 LightDisplayTask
+                            *COM*:00000002 measured_value
+                            *COM*:00000002 f_lit_disp
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:719    .text:00000518 TemperatureDisplayTask
+                            *COM*:00000002 f_tmp_disp
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:779    .text:0000058c __vector_6
+                            *COM*:00000002 f_lit
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:882    .text:0000064c __vector_5
+                            *COM*:00000002 f_tmp
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:985    .text:0000070c DeliveryTask
+                            *COM*:00000002 Mbox
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1056   .text:0000079e LightReadTask
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1131   .text:00000832 TemperatureReadTask
+C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s:1209   .text:000008d2 main
+                            *COM*:00000280 TaskStk
+
+UNDEFINED SYMBOLS
+__udivmodqi4
+__udivmodhi4
+OSSemPend
+OSSemPost
+OSFlagPend
+OSFlagPost
+OSTimeDly
+OSMboxPend
+OSMboxPost
+OSInit
+OSMboxCreate
+OSSemCreate
+OSFlagCreate
+OSTaskCreate
+OSStart
+GAS LISTING C:\Users\박기수\AppData\Local\Temp/ccguo3qd.s 			page 27
+
+
+__do_copy_data
+__do_clear_bss
